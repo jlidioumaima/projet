@@ -74,10 +74,16 @@ class Agence
      */
     private $images;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Offres::class, mappedBy="agence")
+     */
+    private $offres;
+
     public function __construct()
     {
         $this->agent = new ArrayCollection();
         $this->images = new ArrayCollection();
+        $this->offres = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -258,4 +264,34 @@ class Agence
         }    
         return (string) $this->nom;
      }
+
+    /**
+     * @return Collection<int, Offres>
+     */
+    public function getOffres(): Collection
+    {
+        return $this->offres;
+    }
+
+    public function addOffre(Offres $offre): self
+    {
+        if (!$this->offres->contains($offre)) {
+            $this->offres[] = $offre;
+            $offre->setAgence($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOffre(Offres $offre): self
+    {
+        if ($this->offres->removeElement($offre)) {
+            // set the owning side to null (unless already changed)
+            if ($offre->getAgence() === $this) {
+                $offre->setAgence(null);
+            }
+        }
+
+        return $this;
+    }
 }

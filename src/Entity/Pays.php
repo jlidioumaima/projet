@@ -44,11 +44,17 @@ class Pays
      */
     private $images;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Offres::class, mappedBy="pays")
+     */
+    private $offres;
+
     public function __construct()
     {
         $this->hotel = new ArrayCollection();
         $this->sites = new ArrayCollection();
         $this->images = new ArrayCollection();
+        $this->offres = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -176,4 +182,34 @@ class Pays
         }    
         return (string) $this->nom;
      }
+
+    /**
+     * @return Collection<int, Offres>
+     */
+    public function getOffres(): Collection
+    {
+        return $this->offres;
+    }
+
+    public function addOffre(Offres $offre): self
+    {
+        if (!$this->offres->contains($offre)) {
+            $this->offres[] = $offre;
+            $offre->setPays($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOffre(Offres $offre): self
+    {
+        if ($this->offres->removeElement($offre)) {
+            // set the owning side to null (unless already changed)
+            if ($offre->getPays() === $this) {
+                $offre->setPays(null);
+            }
+        }
+
+        return $this;
+    }
 }

@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+{% block titlepage %}Omra{% endblock %}
+
+{% block content %}
+<div class="content">
+  
+              
+           
+   <div class="card-header header-elements-inline" style="background-color:Teal" style="padding-bottom:100px">
+  
+						<h3 class="card-title" style="color:white">Details du Omra :{{voyage_organiser.title}}</h3>
+                        <div class="header-elements"  >
+							 <a class="btn btn-dark" style="width:150px" href="{{ path('app_voyage_organiser_index') }}"><i class="icon-user-plus"></i> Liste des Voyage Organiser</a>
+	                	</div>
+
+                           </div><br>
+                           
+                           <div class="card">
+						
+							<div class="card-body">
+    <table class="table datatable-basic dataTable no-footer" id="DataTables_Table_0"  ="grid" aria-describedby="DataTables_Table_0_info">
+  
+        <tbody>
+           
+            <tr>
+                <th>Title</th>
+                <td>{{ voyage_organiser.title }}</td>
+            </tr>
+            
+            <tr>
+                <th>Prix</th>
+                <td>{{ voyage_organiser.prix }}</td>
+            </tr>
+            <tr>
+                <th>Inclus</th>
+                <td>{{ voyage_organiser.inclus }}</td>
+            </tr>
+            <tr>
+                <th>Non_Inclus</th>
+                <td>{{ voyage_organiser.NonInclus }}</td>
+            </tr>
+       
+                            <tr>
+                                   <th>Images</th>
+                                  
+                                   <td>
+                            {% if app.request.attributes.get('_route') == 'app_omra_show' %}
+  
+      
+        
+   {% for image in omra.images %}
+            <div>
+           
+                <img src="{{ asset('/uploads/'~image.name) }}" alt="" width="90" height="90">
+
+                {# On ajoute un lien permettant de supprimer une image (sera géré en Ajax) #}
+                
+            </div>
+        {% endfor %}
+        </td></tr>
+        {%endif%}
+        </tbody>
+    </table>
+        </div>
+     
+
+    
+   
+
+
+{% endblock %}

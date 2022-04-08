@@ -51,6 +51,13 @@ class Images
      */
     private $sites;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Offres::class, inversedBy="images")
+     */
+    private $offres;
+
+   
+
     public function getId(): ?int
     {
         return $this->id;
@@ -127,4 +134,18 @@ class Images
 
         return $this;
     }
+
+    public function getOffres(): ?Offres
+    {
+        return $this->offres;
+    }
+
+    public function setOffres(?Offres $offres): self
+    {
+        $this->offres = $offres;
+
+        return $this;
+    }
+
+    
 }

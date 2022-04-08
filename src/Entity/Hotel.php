@@ -55,9 +55,21 @@ class Hotel
      */
     private $images;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Offres::class, mappedBy="hotel")
+     */
+    private $offres;
+
+    /**
+     * @ORM\OneToMany(targetEntity=GrilleTarifaire::class, mappedBy="hotel")
+     */
+    private $grilleTarifaires;
+
     public function __construct()
     {
         $this->images = new ArrayCollection();
+        $this->offres = new ArrayCollection();
+        $this->grilleTarifaires = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -166,4 +178,70 @@ class Hotel
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Offres>
+     */
+    public function getOffres(): Collection
+    {
+        return $this->offres;
+    }
+
+    public function addOffre(Offres $offre): self
+    {
+        if (!$this->offres->contains($offre)) {
+            $this->offres[] = $offre;
+            $offre->setHotel($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOffre(Offres $offre): self
+    {
+        if ($this->offres->removeElement($offre)) {
+            // set the owning side to null (unless already changed)
+            if ($offre->getHotel() === $this) {
+                $offre->setHotel(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, GrilleTarifaire>
+     */
+    public function getGrilleTarifaires(): Collection
+    {
+        return $this->grilleTarifaires;
+    }
+
+    public function addGrilleTarifaire(GrilleTarifaire $grilleTarifaire): self
+    {
+        if (!$this->grilleTarifaires->contains($grilleTarifaire)) {
+            $this->grilleTarifaires[] = $grilleTarifaire;
+            $grilleTarifaire->setHotel($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGrilleTarifaire(GrilleTarifaire $grilleTarifaire): self
+    {
+        if ($this->grilleTarifaires->removeElement($grilleTarifaire)) {
+            // set the owning side to null (unless already changed)
+            if ($grilleTarifaire->getHotel() === $this) {
+                $grilleTarifaire->setHotel(null);
+            }
+        }
+
+        return $this;
+    }
+    public function __toString() {
+        if(is_null($this->nom)) {
+            return 'NULL';
+        }    
+        return (string) $this->nom;
+     }
 }
